@@ -1,4 +1,4 @@
-apple!2@orange3banana#4cherry$5grape%6kiwi^7
+apple!2@orange3banana#banana4cherry$5grape%6kiwi^7
 melon&8pear(9plum)0apricot-!blueberry@1cantaloupe#2date$3elderberry%4fig^
 5guava&6honeydew7lemon(8lime)9mango_!nectarine@0papaya#1peach$2pineapple%3raspberry^
 4strawberry&5tangerine6watermelon(7-!random@characters#inbetween$for%a^total&of*1000(letters)including!spaces@and#special$symbols%!@
