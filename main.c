@@ -4,7 +4,7 @@
 #include "headerFiles/hashTable.h"
 #include "headerFiles/resultStruct.h"
 void ProcessWord(char * word){
-    struct TableNode *Node = wordExistsCaseInsensitive(word);
+    struct TableNode *Node = wordExists(word);
     if (Node == NULL){
         addWordToTable(word);
         if (maxCount == 0){
@@ -20,7 +20,7 @@ void ProcessWord(char * word){
 }
 
 bool handleFile(const char* path){
-    FILE *fp = fopen(path,"r");
+    FILE *fp = fopen(path,"r, ccs=UTF-8");
     if (fp == NULL){
         return false;
     }
@@ -30,7 +30,7 @@ bool handleFile(const char* path){
     char c = ' ';
     while(c != EOF){
         c = (char)fgetc(fp);
-        if (!isLetter(c)){
+        if (!isLetter(c) && !isCyrillicLetter(c)){
             if (!isWord){}
             else{
                     if (len == 0){}
@@ -62,7 +62,7 @@ int main() {
     const char* TEXT = "/home/serg/CLionProjects/SysProgLab1/EnglishText.txt";
     const char* WORDS = "/home/serg/CLionProjects/SysProgLab1/EnglishWords.txt";
     initialiseTable();
-    if(!handleFile(TEXT)){
+    if(!handleFile(WORDS)){
         printf("failed to open file\n");
         return 0;
     }

@@ -2,9 +2,11 @@
 #define SYSPROGLAB1_HASHTABLE_H
 
 #include <string.h>
+#include <stdio.h>
 #include "alphabet.h"
-const int MAXLENGTH = 30;
 
+const size_t MAXLENGTH = 30;
+size_t NUMBER_OF_LETTERS_NO_UPPERCASE;
 struct TableNode{
     struct TableNode *Next;
     char *word;
@@ -14,6 +16,7 @@ struct TableNode{
 struct TableNode **hashTable;
 
 void initialiseTable(){
+    NUMBER_OF_LETTERS_NO_UPPERCASE = 26 + strlen(cyryllicAlphabet);
     hashTable = malloc(sizeof (struct TableNode) * NUMBER_OF_LETTERS_NO_UPPERCASE);
     for (int i = 0; i < NUMBER_OF_LETTERS_NO_UPPERCASE; i++){
         struct TableNode *row = malloc(sizeof(struct TableNode));
@@ -22,7 +25,7 @@ void initialiseTable(){
         hashTable[i] = row;
     }
 }
-struct TableNode* getRowByWord(char* word){
+struct TableNode* getRowByWord(const char* word){
     char firstChar = word[0];
     int idx = letterToNumber(firstChar);
     struct TableNode *Node = hashTable[idx];
@@ -30,7 +33,7 @@ struct TableNode* getRowByWord(char* word){
 }
 
 // returns index of word, otherwise -1
-struct TableNode *wordExistsCaseInsensitive(char *word){
+struct TableNode *wordExists(char *word){
     if (strcmp(word, "") == 0){
         return NULL;
     }
@@ -38,7 +41,7 @@ struct TableNode *wordExistsCaseInsensitive(char *word){
 
     for (struct TableNode *Node = getRowByWord(word);  Node != NULL && Node->word != NULL; Node = Node->Next){
         strcpy(dictionaryWord, Node->word);
-        if (strcasecmp(word, dictionaryWord) == 0){
+        if (strcmp(word, dictionaryWord) == 0){
             free(dictionaryWord);
             return Node;
         }
@@ -49,7 +52,8 @@ struct TableNode *wordExistsCaseInsensitive(char *word){
 }
 
 void addWordToTable(char *word){
-    if (wordExistsCaseInsensitive(word) != NULL){
+    printf("%s\n",word);
+    if (wordExists(word) != NULL){
         return;
     }
     char *newWord = malloc(sizeof(char)*MAXLENGTH);
