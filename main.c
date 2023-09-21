@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "headerFiles/hashTable.h"
 #include "headerFiles/resultStruct.h"
 void ProcessWord(char * word){
@@ -18,8 +19,11 @@ void ProcessWord(char * word){
     }
 }
 
-void handleFile(const char* path){
+bool handleFile(const char* path){
     FILE *fp = fopen(path,"r");
+    if (fp == NULL){
+        return false;
+    }
     bool isWord = false;
     char *word = malloc(MAXLENGTH);
     int len = 0;
@@ -51,13 +55,17 @@ void handleFile(const char* path){
     free(word);
     formResult();
     fclose(fp);
+    return true;
 }
 
 int main() {
     const char* TEXT = "/home/serg/CLionProjects/SysProgLab1/EnglishText.txt";
     const char* WORDS = "/home/serg/CLionProjects/SysProgLab1/EnglishWords.txt";
     initialiseTable();
-    handleFile(TEXT);
+    if(!handleFile(TEXT)){
+        printf("failed to open file\n");
+        return 0;
+    }
     printResult();
     freeTable();
     freeResult();
